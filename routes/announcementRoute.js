@@ -1,0 +1,122 @@
+const express = require('express');
+const router = express.Router();
+const announcementController = require('../controllers/announcement_view');
+const authenticateToken = require('../middleware/authenticateToken')
+const roleList = require('../helper/roleList')
+const verifyRoles = require('../middleware/verifyRole')
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Teacher,
+        ),
+        announcementController.createAnnouncement
+    )
+router.route('/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Dean_of_study,
+        ),
+        announcementController.getAnnouncements
+    )
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Student,
+            roleList.Teacher,
+        ),
+        announcementController.getAnnouncementById
+    )
+router.route('/level/:levelId')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Student,
+            roleList.Teacher,
+            roleList.Dean_of_study,
+        ),
+        announcementController.getAnnouncementsByLevelId
+    )
+router.route('/audience/:audience')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        announcementController.getAnnouncementsByAudience
+    )
+router.route('/title/:title')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Dean_of_study,
+        ),
+        announcementController.getAnnouncementsByTitle
+    )
+router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Teacher,
+        ),
+        announcementController.updateAnnouncement
+    )
+router.route('/:id/delete')
+    .delete(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Teacher,
+        ),
+        announcementController.deleteAnnouncement
+    )
+module.exports = router;

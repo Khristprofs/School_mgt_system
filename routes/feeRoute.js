@@ -1,0 +1,216 @@
+const express = require('express');
+const router = express.Router();
+const FeeController = require('../controllers/fee_view')
+const authenticateToken = require('../middleware/authenticateToken')
+const roleList = require('../helper/roleList')
+const verifyRoles = require('../middleware/verifyRole')
+
+router.route('/create')
+    .post(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+        ),
+        FeeController.createFee
+    )
+router.route('/all')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        FeeController.getFees
+    )
+router.route('/:id/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Student,
+            roleList.Parent,
+        ),
+        FeeController.getFee
+    )
+router.route('/term/:termId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+        ),
+        FeeController.getFeesByTerm
+    )
+router.route('/get-approved-fees')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Properietor,
+            roleList.Properietress,
+        ),
+        FeeController.getApprovedFees
+    )
+router.route('/get-unapproved-fees')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Properietor,
+            roleList.Properietress,
+        ),
+        FeeController.getUnapprovedFees
+    )
+router.route('/term/:termId/approved')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Properietor,
+            roleList.Properietress,
+        ),
+        FeeController.getApprovedFeesByTerm
+    )
+router.route('/term/:termId/unapproved')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Properietor,
+            roleList.Properietress,
+        ),
+        FeeController.getUnapprovedFeesByTerm
+    )
+router.route('/klass/:klassId/approved')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Properietor,
+            roleList.Properietress,
+            roleList.Student,
+            roleList.Parent,
+        ),
+        FeeController.approvedFeesForAKlass
+    )
+router.route('/klass/:klassId/unapproved')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Properietor,
+            roleList.Properietress,
+        ),
+        FeeController.unapprovedFeesForAKlass
+    )
+router.route('/session/:sessionId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Bursar,
+            roleList.Auditor,
+        ),
+        FeeController.getFeesBySession
+    )
+router.route('/klass/:klassId/get')
+    .get(
+        authenticateToken,
+        verifyRoles(
+            roleList.Admin,
+            roleList.School_admin,
+            roleList.Principal,
+            roleList.Vice_principal,
+            roleList.Headteacher,
+            roleList.Vice_headteacher,
+            roleList.Bursar,
+            roleList.Auditor,
+            roleList.Student,
+            roleList.Parent,
+        ),
+        FeeController.getFeesByKlass
+    )
+router.route('/:id/update')
+    .put(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+        ),
+        FeeController.updateFee
+    )
+router.route('/:id/delete')
+    .delete(
+        authenticateToken,
+        verifyRoles(
+            roleList.School_admin,
+            roleList.Bursar,
+            roleList.Auditor,
+        ),
+        FeeController.deleteFee
+    )
+
+module.exports = router;
